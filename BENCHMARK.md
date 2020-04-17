@@ -12,8 +12,7 @@ resnet50      | 0.732       | 0.712   | 0.646
 
 使用yolo和centerpose作为检测框，使用resnet50/resnet18/resnet18_aug作为SPPE框架：
 ```
-python script --cfg 
-
+python scripts/validate.py --cfg ./configs/coco/resnet/256x192_res18_lr1e-3_1x.yaml  --checkpoint ./exp/mytrain-res18/final.pth --detector efficientdet
 ```
 
 pose arch     | groundtruth | yolo    | centerpose   | d0    | d4-0.2 | d4    | d7
