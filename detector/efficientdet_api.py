@@ -18,10 +18,10 @@ from detector.efficientdet.utils.utils import preprocess, invert_affine, postpro
 class EffDetector(BaseDetector):
   input_sizes = [512, 640, 768, 896, 1024, 1280, 1280, 1536]
 
-  def __init__(self, compound_coef):
+  def __init__(self, compound_coef=0, iou_threshold=0.2):
     self.model = None
     self.compound_coef = compound_coef
-    self.iou_threshold = 0.2
+    self.iou_threshold = iou_threshold
     self.threshold = 0.2
     self.force_input_size = None
     self.input_size = self.input_sizes[self.compound_coef] if self.force_input_size is None else self.force_input_size

@@ -8,17 +8,23 @@ from abc import ABC, abstractmethod
 
 
 def get_detector(opt=None):
+    """
+    here the opt comes from arguments taken from terminal
+    """
     if opt.detector == 'yolo':
         from detector.yolo_api import YOLODetector
         from detector.yolo_cfg import cfg
+
         return YOLODetector(cfg, opt)
     elif opt.detector == 'centerpose':
         from detector.centerpose_api import CenterposeDetector 
         from detector.centerpose_cfg import cfg
+        
         return CenterposeDetector(cfg)
     elif opt.detector == 'efficientdet':
         from detector.efficientdet_api import EffDetector
-        return EffDetector(4)
+
+        return EffDetector(opt.level, opt.iou_threshold)
     elif opt.detector == 'tracker':
         from detector.tracker_api import Tracker
         from detector.tracker_cfg import cfg

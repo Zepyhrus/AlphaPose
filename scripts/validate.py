@@ -12,43 +12,48 @@ from alphapose.utils.metrics import evaluate_mAP
 from alphapose.utils.transforms import (flip, flip_heatmap,
                                         get_func_heatmap_to_coord)
 
-parser = argparse.ArgumentParser(description='AlphaPose Validate')
-parser.add_argument('--cfg',
-                    help='experiment configure file name',
-                    required=True,
-                    type=str)
-parser.add_argument('--checkpoint',
-                    help='checkpoint file name',
-                    required=True,
-                    type=str)
-parser.add_argument('--gpus',
-                    help='gpus',
-                    type=str, default='0')
-parser.add_argument('--batch',
-                    help='validation batch size',
-                    type=int, default=40)
-parser.add_argument('--flip-test',
-                    default=True,
-                    dest='flip_test',
-                    help='flip test',
-                    action='store_true')
-parser.add_argument('--detector', dest='detector',
-                    help='detector name', default="yolo")
+def get_args():
+    parser = argparse.ArgumentParser(description='AlphaPose Validate')
+    parser.add_argument('--cfg',
+                        help='experiment configure file name',
+                        required=True,
+                        type=str)
+    parser.add_argument('--checkpoint',
+                        help='checkpoint file name',
+                        required=True,
+                        type=str)
+    parser.add_argument('--gpus',
+                        help='gpus',
+                        type=str, default='0')
+    parser.add_argument('--batch-size', dest='batch_size',
+                        help='validation batch size',
+                        type=int, default=40)
+    parser.add_argument('--flip-test',
+                        default=True,
+                        dest='flip_test',
+                        help='flip test',
+                        action='store_true')
+    parser.add_argument('--detector', dest='detector',
+                        help='detector name', default="yolo")
+    parser.add_argument('--level', type=int, default=0)
+    parser.add_argument('--iou-threshold', dest='iou_threshold', type=float, default=0.4)
 
-opt = parser.parse_args()
-cfg = update_config(opt.cfg)
+    opt = parser.parse_args()
+    
 
-gpus = [int(i) for i in opt.gpus.split(',')]
-opt.gpus = [gpus[0]]
-opt.device = torch.device("cuda:" + str(opt.gpus[0]) if opt.gpus[0] >= 0 else "cpu")
+    gpus = [int(i) for i in opt.gpus.split(',')]
+    opt.gpus = [gpus[0]]
+    opt.device = torch.device("cuda:" + str(opt.gpus[0]) if opt.gpus[0] >= 0 else "cpu")
+
+    return opt
 
 
-def validate(m, heatmap_to_coord, batch_size=20):
+def validate(m, heatmap_to_coord, opt, cfg):
     det_dataset = builder.build_dataset(cfg.DATASET.TEST, preset_cfg=cfg.DATA_PRESET, train=False, opt=opt)
     eval_joints = det_dataset.EVAL_JOINTS
 
     det_loader = torch.utils.data.DataLoader(
-        det_dataset, batch_size=batch_size, shuffle=False, num_workers=20, drop_last=False)
+        det_dataset, batch_size=opt.batch_size, shuffle=False, num_workers=20, drop_last=False)
     kpt_json = []
     m.eval()
 
@@ -92,7 +97,7 @@ def validate(m, heatmap_to_coord, batch_size=20):
     return res['AP']
 
 
-def validate_gt(m, cfg, heatmap_to_coord, batch_size=20):
+def validate_gt(m, heatmap_to_coord, opt, cfg):
     """
     sherk: 
     input:
@@ -105,7 +110,7 @@ def validate_gt(m, cfg, heatmap_to_coord, batch_size=20):
     eval_joints = gt_val_dataset.EVAL_JOINTS
 
     gt_val_loader = torch.utils.data.DataLoader(
-        gt_val_dataset, batch_size=batch_size, shuffle=False, num_workers=20, drop_last=False)
+        gt_val_dataset, batch_size=opt.batch_size, shuffle=False, num_workers=20, drop_last=False)
     kpt_json = []
     m.eval()
 
@@ -150,6 +155,8 @@ def validate_gt(m, cfg, heatmap_to_coord, batch_size=20):
 
 
 if __name__ == "__main__":
+    opt = get_args()
+    cfg = update_config(opt.cfg)
     # here m refers to the SPPE model
     m = builder.build_sppe(cfg.MODEL, preset_cfg=cfg.DATA_PRESET)
 
@@ -157,13 +164,13 @@ if __name__ == "__main__":
     print(f'Loading model from {opt.checkpoint}...')
     m.load_state_dict(torch.load(opt.checkpoint))
 
-    m = torch.nn.DataParallel(m, device_ids=gpus).cuda()
+    m = torch.nn.DataParallel(m, device_ids=[0]).cuda()    # will this be the cause of slow 2080Ti?
     heatmap_to_coord = get_func_heatmap_to_coord(cfg)
 
     
     with torch.no_grad():
-        detbox_AP = validate(m, heatmap_to_coord, opt.batch)
-        gt_AP = validate_gt(m, cfg, heatmap_to_coord, opt.batch)
+        detbox_AP = validate(m, heatmap_to_coord, opt, cfg)
+        gt_AP = validate_gt(m, heatmap_to_coord, opt, cfg)
         
 
     print('##### gt box: {} mAP | det box: {} mAP #####'.format(gt_AP, detbox_AP))
