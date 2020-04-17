@@ -18,7 +18,7 @@ def get_detector(opt=None):
         return CenterposeDetector(cfg)
     elif opt.detector == 'efficientdet':
         from detector.efficientdet_api import EffDetector
-        return EffDetector(7)
+        return EffDetector(4)
     elif opt.detector == 'tracker':
         from detector.tracker_api import Tracker
         from detector.tracker_cfg import cfg
