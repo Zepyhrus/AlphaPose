@@ -21,7 +21,7 @@ class EffDetector(BaseDetector):
   def __init__(self, compound_coef):
     self.model = None
     self.compound_coef = compound_coef
-    self.iou_threshold = 0.4
+    self.iou_threshold = 0.2
     self.threshold = 0.2
     self.force_input_size = None
     self.input_size = self.input_sizes[self.compound_coef] if self.force_input_size is None else self.force_input_size

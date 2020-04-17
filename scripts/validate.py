@@ -43,7 +43,7 @@ opt.gpus = [gpus[0]]
 opt.device = torch.device("cuda:" + str(opt.gpus[0]) if opt.gpus[0] >= 0 else "cpu")
 
 
-def validate(m, heatmap_to_coord, batch_size=20, val_file='./exp/json/validate_rcnn_kpt.json'):
+def validate(m, heatmap_to_coord, batch_size=20):
     det_dataset = builder.build_dataset(cfg.DATASET.TEST, preset_cfg=cfg.DATA_PRESET, train=False, opt=opt)
     eval_joints = det_dataset.EVAL_JOINTS
 
@@ -86,13 +86,13 @@ def validate(m, heatmap_to_coord, batch_size=20, val_file='./exp/json/validate_r
 
             kpt_json.append(data)
 
-    with open(val_file, 'w') as fid:
+    with open('./exp/json/validate_rcnn_kpt.json', 'w') as fid:
         json.dump(kpt_json, fid)
-    res = evaluate_mAP(val_file, ann_type='keypoints')
+    res = evaluate_mAP('./exp/json/validate_rcnn_kpt.json', ann_type='keypoints')
     return res['AP']
 
 
-def validate_gt(m, cfg, heatmap_to_coord, batch_size=20, val_file='./exp/json/validate_gt_kpt.json'):
+def validate_gt(m, cfg, heatmap_to_coord, batch_size=20):
     """
     sherk: 
     input:
@@ -143,9 +143,9 @@ def validate_gt(m, cfg, heatmap_to_coord, batch_size=20, val_file='./exp/json/va
 
             kpt_json.append(data)
 
-    with open(val_file, 'w') as fid:
+    with open('./exp/json/validate_gt_kpt.json', 'w') as fid:
         json.dump(kpt_json, fid)
-    res = evaluate_mAP(val_file, ann_type='keypoints')
+    res = evaluate_mAP('./exp/json/validate_gt_kpt.json', ann_type='keypoints')
     return res['AP']
 
 
