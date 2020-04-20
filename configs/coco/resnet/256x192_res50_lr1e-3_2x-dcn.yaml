@@ -56,8 +56,8 @@ DETECTOR:
   NMS_THRES: 0.6
   CONFIDENCE: 0.05
 TRAIN:
-  WORLD_SIZE: 4
-  BATCH_SIZE: 32
+  WORLD_SIZE: -1 # what is world_size?
+  BATCH_SIZE: 16
   BEGIN_EPOCH: 0
   END_EPOCH: 270
   OPTIMIZER: 'sgd' # modified by sherk, move from adam to sgd
