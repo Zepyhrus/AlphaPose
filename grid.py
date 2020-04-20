@@ -70,19 +70,19 @@ def val(opt):
   else:
     det_name = opt.detector
   
-  pose_name = 'error'
-  if 'res50' in opt.cfg:
-    pose_name = 'res50-dcn'
-  elif 'res18_aug' in opt.cfg:
-    pose_name = 'res18'
-  elif 'res152' in opt.cfg:
-    pose_name = 'res152'
-
-  return '### gt box: {} mAP | det box: {} mAP ### @ {}*{}'.format(gt_AP, detbox_AP, det_name, pose_name)
+  return '### gt box: {} mAP | det box: {} mAP ### @ {}*{}'.format(gt_AP, detbox_AP, det_name, opt.cfg)
 
 
 
 if __name__ == "__main__":
+  # 
+
+
+
+
+
+
+  
   # we shall generate detect results first ----------------------------------------
   config_root = 'configs/coco/resnet'
   config_files = [
@@ -101,33 +101,30 @@ if __name__ == "__main__":
     'efficientdet'
   ]
 
-  results = []
-
-  for i in range(2):
-    config_file = config_files[i]
-    checkpoint = checkpoints[i]
-
-    opt = get_args()
-    opt.cfg = join(config_root, config_file)
-    opt.checkpoint = checkpoint
-    opt.gpus = [0]
-    opt.device = torch.device('cuda:0')
-
-    for detector in detectors:
-      opt.detector = detector
-
-      if opt.detector == 'efficientdet':
-        for iou in range(2, 4):
-          opt.iou_threshold = iou / 10
-
-          for level in range(2):
-            opt.level = level
-            results.append(val(opt))
-      else:
-        results.append(val(opt))
-    
   with open('grid.txt', 'w') as f:
-    f.writelines(results)
+    for i in range(len(checkpoints)):
+      config_file = config_files[i]
+      checkpoint = checkpoints[i]
+
+      opt = get_args()
+      opt.cfg = join(config_root, config_file)
+      opt.checkpoint = checkpoint
+      opt.gpus = [0]
+      opt.device = torch.device('cuda:0')
+
+      for detector in detectors:
+        opt.detector = detector
+
+        if opt.detector == 'efficientdet':
+          for iou in range(2, 4):
+            opt.iou_threshold = iou / 10
+
+            for level in range(2):
+              opt.level = level
+              f.write(val(opt)+'\n')
+        else:
+          f.write(val(opt)+'\n')
+    
   
 
 

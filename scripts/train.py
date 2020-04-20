@@ -169,7 +169,8 @@ def main():
 
     # Model Initialize
     m = preset_model(cfg)
-    m = nn.DataParallel(m).cuda()
+    # m = nn.DataParallel(m).cuda() # modified by sherk, remove DataParallel option
+    m = m.cuda()
 
     criterion = torch.nn.MSELoss().cuda()
     if cfg.TRAIN.OPTIMIZER == 'adam':
