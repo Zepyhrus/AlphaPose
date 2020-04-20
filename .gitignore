@@ -120,3 +120,5 @@ exp/
 
 
 # efficientdet
+grid.txt
+grid.cloud.txt

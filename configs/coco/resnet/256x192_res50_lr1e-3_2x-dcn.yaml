@@ -33,7 +33,7 @@ DATA_PRESET:
   - 48
 MODEL:
   TYPE: 'FastPose'
-  PRETRAINED: ''
+  PRETRAINED: './models/fast_dcn_res50_256x192.pth'
   TRY_LOAD: ''
   NUM_DECONV_FILTERS:
   - 256
@@ -56,11 +56,11 @@ DETECTOR:
   NMS_THRES: 0.6
   CONFIDENCE: 0.05
 TRAIN:
-  WORLD_SIZE: 4
-  BATCH_SIZE: 32
+  WORLD_SIZE: -1 # what is world_size?
+  BATCH_SIZE: 64
   BEGIN_EPOCH: 0
   END_EPOCH: 270
-  OPTIMIZER: 'adam'
+  OPTIMIZER: 'sgd' # modified by sherk, move from adam to sgd
   LR: 0.001
   LR_FACTOR: 0.1
   LR_STEP:

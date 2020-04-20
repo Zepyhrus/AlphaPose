@@ -20,6 +20,10 @@ pose arch     | groundtruth | yolo    | centerpose   | d0    | d4-0.2 | d4    | 
 resnet152     | 0.758       | 0.733   | 
 resnet50-dcn  | 0.753       | 0.728   |              | 0.711 |
 resnet50      | 0.743       | 0.720   | 0.652        | 0.705 | 0.674  | 0.717 | 0.710
-resnet18      | 0.690       | 0.667   | -            | 0.650 | 
-resent18-aug  | 0.693       | 0.672   | -            |       |        |
+resent18-aug  | 0.693       | 0.672   | 0.613        |       |        |
+
+
+
+
+## 3. Fine-tuning on resnet50-dcn
 

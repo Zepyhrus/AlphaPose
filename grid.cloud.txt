@@ -111,5 +111,3 @@
 ### gt box: 0.6932505933902261 mAP | det box: 0.6724925326037906 mAP ### @ d6-0.6*configs/coco/resnet/256x192_res18_lr1e-3_1x.yaml
 ### gt box: 0.6932581873265602 mAP | det box: 0.6690038351016744 mAP ### @ d7-0.6*configs/coco/resnet/256x192_res18_lr1e-3_1x.yaml
 ### gt box: 0.694058979966255 mAP | det box: 0.6255015767792905 mAP ### @ d0-0.7*configs/coco/resnet/256x192_res18_lr1e-3_1x.yaml
-### gt box: 0.6932928516602243 mAP | det box: 0.6418545238278851 mAP ### @ d1-0.7*configs/coco/resnet/256x192_res18_lr1e-3_1x.yaml
-### gt box: 0.6932371500623196 mAP | det box: 0.6508673030914195 mAP ### @ d2-0.7*configs/coco/resnet/256x192_res18_lr1e-3_1x.yaml

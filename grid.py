@@ -70,12 +70,23 @@ def val(opt):
   else:
     det_name = opt.detector
   
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2b44a4b7cbd5fef8a5d3b11db10e084ae471019b
   return '### gt box: {} mAP | det box: {} mAP ### @ {}*{}'.format(gt_AP, detbox_AP, det_name, opt.cfg)
 
 
 
 if __name__ == "__main__":
+  # 
+
+
+
+
+
+
+  
   # we shall generate detect results first ----------------------------------------
   config_root = 'configs/coco/resnet'
   config_files = [
