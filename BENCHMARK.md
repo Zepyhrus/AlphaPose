@@ -8,6 +8,7 @@ Now my tasks are:
    [x] find the best match detector model for AlphaPose;
    [-] use `sgd` to get a better convergence, and see how much improvement could achieve;
    [-] add noise augumentation, and see how much improvement could achieve;
+   [-] understand the training process in AlphaPose and how the flip-test/loss works;
  * validate model on different dataset;
    [-] Huawei;
    [-] CrowdPose;
