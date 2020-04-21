@@ -169,8 +169,8 @@ def main():
 
     # Model Initialize
     m = preset_model(cfg)
-    # m = nn.DataParallel(m).cuda() # modified by sherk, remove DataParallel option
-    m = m.cuda()
+    m = nn.DataParallel(m).cuda() # do not remove DataParallel option, this will cause no module error
+    
 
     criterion = torch.nn.MSELoss().cuda()
     if cfg.TRAIN.OPTIMIZER == 'adam':

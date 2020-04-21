@@ -58,8 +58,8 @@ if __name__ == '__main__':
 
       cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
-    cv2.imshow('_', img)
-    if cv2.waitKey(0) == 27: break
+    # cv2.imshow('_', img)
+    # if cv2.waitKey(0) == 27: break
 
 
     

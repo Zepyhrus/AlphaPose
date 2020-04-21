@@ -87,44 +87,50 @@ if __name__ == "__main__":
   config_root = 'configs/coco/resnet'
   config_files = [
     '256x192_res18_lr1e-3_1x.yaml',
-    '256x192_res50_lr1e-3_2x-dcn.yaml'
+    '256x192_res50_lr1e-3_2x-dcn.yaml',
+    '256x192_res152_lr1e-3_1x-duc.yaml'
+
   ]
 
   checkpoints = [
     './models/fast_res18_aug_256x192.pth',
-    './models/fast_dcn_res50_256x192.pth'
+    './models/fast_dcn_res50_256x192.pth',
+    './models/fast_421_res152_256x192.pth'
   ]
 
   detectors = [
-    'yolo',
     'centerpose',
+    'yolo',
     'efficientdet'
   ]
 
-  with open('grid.txt', 'w') as f:
-    for i in range(len(checkpoints)):
-      config_file = config_files[i]
-      checkpoint = checkpoints[i]
+  grid_file = 'grid.txt'
+  for i in range(len(config_files)):
+    config_file = config_files[i]
+    checkpoint = checkpoints[i]
 
-      opt = get_args()
-      opt.cfg = join(config_root, config_file)
-      opt.checkpoint = checkpoint
-      opt.gpus = [0]
-      opt.device = torch.device('cuda:0')
+    opt = get_args()
+    opt.cfg = join(config_root, config_file)
+    opt.checkpoint = checkpoint
+    opt.gpus = [0]
+    opt.device = torch.device('cuda:0')
 
-      for detector in detectors:
-        opt.detector = detector
+    for detector in detectors:
+      opt.detector = detector
 
-        if opt.detector == 'efficientdet':
-          for iou in range(2, 4):
-            opt.iou_threshold = iou / 10
+      if opt.detector == 'efficientdet':
+        for iou in range(6, 10): # iou from 0.2 to 0.9
+          opt.iou_threshold = iou / 10
 
-            for level in range(2):
-              opt.level = level
-              f.write(val(opt)+'\n')
-        else:
-          f.write(val(opt)+'\n')
+          for level in range(8): # efficient detector from d0 to d7
+            opt.level = level
+            res = val(opt)
+            with open(grid_file, 'a') as f: f.write(res+'\n')
+      else:
+        res = val(opt)
+        with open(grid_file, 'a') as f: f.write(res+'\n')
     
+
   
 
 
