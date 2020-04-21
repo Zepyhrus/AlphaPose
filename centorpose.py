@@ -1,5 +1,5 @@
 """
-Integration of centerpose
+Integration of centerpose, There is a bug on this cloud project, we will not use centerpose for now
 """
 
 import time
@@ -40,23 +40,23 @@ if __name__ == '__main__':
   images = imgs.clone()
 
   # here starts self.images_detection function
-  results = detector.images_detection(imgs, im_dim_list)
+  # results = detector.images_detection(imgs, im_dim_list)
 
 
-  # print(detector.detect_one_img(img_sources[0]))
+  print(detector.detect_one_img(img_sources[0]))
   
   # visualization
-  results = results.numpy()
-  print(type(results), results)
-  for idx in range(orig_imgs.__len__()):
-    img = orig_imgs[idx]
+  # results = results.numpy()
+  # print(type(results), results)
+  # for idx in range(orig_imgs.__len__()):
+  #   img = orig_imgs[idx]
 
-    bboxes = results[results[:, 0].astype(np.int) == idx, 1:5]
+  #   bboxes = results[results[:, 0].astype(np.int) == idx, 1:5]
 
-    for box in bboxes:
-      x1, y1, x2, y2 = box.astype(np.int)
+  #   for box in bboxes:
+  #     x1, y1, x2, y2 = box.astype(np.int)
 
-      cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+  #     cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
     # cv2.imshow('_', img)
     # if cv2.waitKey(0) == 27: break

@@ -30,13 +30,13 @@ def demo_more(detector, img_sources):
       cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
       cv2.putText(img, score_txt, (x1, y1+10), 0, 0.75, (0, 255, 0), 2)
 
-    cv2.imshow('_', img)
-    if cv2.waitKey(0) == 27: break
+    # cv2.imshow('_', img)
+    # if cv2.waitKey(0) == 27: break
 
 
 
 if __name__ == "__main__":
-  img_sources = glob('./data/seedland/testpng/*')[:1]
+  img_sources = glob('./data/seedland/pose_seg_hard/*')[:1]
 
   detector = EffDetector(4)
   detector.load_model()
