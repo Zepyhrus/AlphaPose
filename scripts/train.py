@@ -174,7 +174,7 @@ def main():
 
     criterion = torch.nn.MSELoss().cuda()
     if cfg.TRAIN.OPTIMIZER == 'adam':
-        optimizer = torch.optim.Adam(m.parameters(), lr=cfg.TRAIN.LR)
+        optimizer = torch.optim.AdamW(m.parameters(), lr=cfg.TRAIN.LR)  # modified by sherk, using AdamW to achieve a better convergenity
     elif cfg.TRAIN.OPTIMIZER == 'rmsprop':
         optimizer = torch.optim.RMSprop(m.parameters(), lr=cfg.TRAIN.LR)
     elif cfg.TRAIN.OPTIMIZER == 'sgd':
