@@ -13,7 +13,7 @@ Now my tasks are:
    [-] CrowdPose;
    [-] AI Challenger;
  * validate model in different data format;
-   [-] AI Challenger 14 points;
+   [-] AI Challenger 14 points, using less points should get higher accuracy;
  * integrate a new model;
    [-] Deep-high-resolution-net;
  * Use different postprocessing method instead of parametric pose-NMS:
