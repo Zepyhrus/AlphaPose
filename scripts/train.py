@@ -79,7 +79,7 @@ def train(opt, train_loader, m, criterion, optimizer, writer):
 def validate(m, opt, heatmap_to_coord, batch_size=20):
     det_dataset = builder.build_dataset(cfg.DATASET.TEST, preset_cfg=cfg.DATA_PRESET, train=False, opt=opt)
     det_loader = torch.utils.data.DataLoader(
-        det_dataset, batch_size=batch_size, shuffle=False, num_workers=20, drop_last=False)
+        det_dataset, batch_size=batch_size, shuffle=False, num_workers=opt.nThreads, drop_last=False)
     kpt_json = []
     eval_joints = det_dataset.EVAL_JOINTS
 
@@ -123,7 +123,7 @@ def validate_gt(m, opt, cfg, heatmap_to_coord, batch_size=20):
     eval_joints = gt_val_dataset.EVAL_JOINTS
 
     gt_val_loader = torch.utils.data.DataLoader(
-        gt_val_dataset, batch_size=batch_size, shuffle=False, num_workers=20, drop_last=False)
+        gt_val_dataset, batch_size=batch_size, shuffle=False, num_workers=opt.nThreads, drop_last=False)
     kpt_json = []
     m.eval()
 
@@ -169,8 +169,8 @@ def main():
 
     # Model Initialize
     m = preset_model(cfg)
-    # m = nn.DataParallel(m).cuda() # modified by sherk, remove DataParallel option
-    m = m.cuda()
+    m = nn.DataParallel(m).cuda() # do not remove DataParallel option, this will cause no module error
+    
 
     criterion = torch.nn.MSELoss().cuda()
     if cfg.TRAIN.OPTIMIZER == 'adam':

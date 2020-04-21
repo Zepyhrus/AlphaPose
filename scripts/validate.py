@@ -53,7 +53,7 @@ def validate(m, heatmap_to_coord, opt, cfg):
     eval_joints = det_dataset.EVAL_JOINTS
 
     det_loader = torch.utils.data.DataLoader(
-        det_dataset, batch_size=opt.batch_size, shuffle=False, num_workers=20, drop_last=False)
+        det_dataset, batch_size=opt.batch_size, shuffle=False, num_workers=8, drop_last=False)
     kpt_json = []
     m.eval()
 
@@ -110,7 +110,7 @@ def validate_gt(m, heatmap_to_coord, opt, cfg):
     eval_joints = gt_val_dataset.EVAL_JOINTS
 
     gt_val_loader = torch.utils.data.DataLoader(
-        gt_val_dataset, batch_size=opt.batch_size, shuffle=False, num_workers=20, drop_last=False)
+        gt_val_dataset, batch_size=opt.batch_size, shuffle=False, num_workers=8, drop_last=False)
     kpt_json = []
     m.eval()
 
