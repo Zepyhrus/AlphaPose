@@ -178,8 +178,7 @@ def main():
     elif cfg.TRAIN.OPTIMIZER == 'rmsprop':
         optimizer = torch.optim.RMSprop(m.parameters(), lr=cfg.TRAIN.LR)
     elif cfg.TRAIN.OPTIMIZER == 'sgd':
-        # sherk: used for fine-tuning
-        optimizer = torch.optim.SGD(m.parameters(), lr=cfg.TRAIN.LR, momentum=0.9)
+        optimizer = torch.optim.SGD(m.parameters(), lr=cfg.TRAIN.LR, momentum=0.9)  # sherk: used for fine-tuning
 
     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(
         optimizer, milestones=cfg.TRAIN.LR_STEP, gamma=cfg.TRAIN.LR_FACTOR)
