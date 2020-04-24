@@ -108,6 +108,7 @@ class DataWriter():
                 preds_img = torch.cat(pose_coords)
                 preds_scores = torch.cat(pose_scores)
                 result = pose_nms(boxes, scores, ids, preds_img, preds_scores, self.opt.min_box_area)
+                
                 result = {
                     'imgname': im_name,
                     'result': result

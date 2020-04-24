@@ -98,7 +98,9 @@ class CustomDataset(data.Dataset):
         label = copy.deepcopy(self._labels[idx])
         # img = scipy.misc.imread(img_path, mode='RGB')
         img = cv2.imread(img_path)
-        img = random_aug(img)[:, :, ::-1]   # added by sherk use noise augumentation
+        if self._train:
+            img = random_aug(img)   # added by sherk use noise augumentation, only in train phrase
+        img = img[:, :, ::-1]   
         
 
         # transform ground truth into training label and apply data augmentation

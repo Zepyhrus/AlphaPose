@@ -53,9 +53,9 @@ def get_args():
     parser.add_argument('--pose_track', dest='pose_track', action='store_true', default=False)
 
     args = parser.parse_args([
-    '--cfg', './configs/coco/resnet/256x192_res152_lr1e-3_1x-duc.yaml',
-    '--checkpoint', './models/fast_421_res152_256x192.pth',
-    '--indir', './data/seedland/demo',
+    '--cfg', './configs/coco/resnet/res50-dcn_ft.yaml',
+    '--checkpoint', './models/fast_dcn_res50_256x192.pth',
+    '--indir', './data/seedland/pose_seg_hard',
     '--outdir', './data/output/'
     ])
     cfg = update_config(args.cfg)

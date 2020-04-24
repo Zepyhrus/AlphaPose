@@ -46,7 +46,7 @@ class DeformConvFunction(Function):
         else:
             cur_im2col_step = min(ctx.im2col_step, input.shape[0])
             assert (input.shape[0] %
-                    cur_im2col_step) == 0, 'im2col step must divide batchsize'
+                    cur_im2col_step) == 0, f'im2col step:{cur_im2col_step} must divide batchsize {input.shape[0]}'
             deform_conv_cuda.deform_conv_forward_cuda(
                 input, weight, offset, output, ctx.bufs_[0], ctx.bufs_[1],
                 weight.size(3), weight.size(2), ctx.stride[1], ctx.stride[0],
