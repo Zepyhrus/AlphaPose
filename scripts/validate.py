@@ -115,9 +115,6 @@ def validate_gt(m, heatmap_to_coord, opt, cfg):
     m.eval()
 
     for inps, labels, label_masks, img_ids, bboxes in tqdm(gt_val_loader, dynamic_ncols=True):
-        print(bboxes[0], img_ids[0])
-        
-        print(inps[0].mean(), inps[0].std())
         if isinstance(inps, list):
             inps = [inp.cuda() for inp in inps]
         else:
@@ -170,10 +167,11 @@ if __name__ == "__main__":
     m = torch.nn.DataParallel(m, device_ids=[0]).cuda()    # will this be the cause of slow 2080Ti?
     heatmap_to_coord = get_func_heatmap_to_coord(cfg)
 
-    
+    detbox_AP = 0.0
+    gt_AP = 0.0
     with torch.no_grad():
-        # detbox_AP = validate(m, heatmap_to_coord, opt, cfg)
-        gt_AP = validate_gt(m, heatmap_to_coord, opt, cfg)
+        detbox_AP = validate(m, heatmap_to_coord, opt, cfg)
+        # gt_AP = validate_gt(m, heatmap_to_coord, opt, cfg)
         
 
     print('##### gt box: {} mAP | det box: {} mAP #####'.format(gt_AP, detbox_AP))
