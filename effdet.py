@@ -48,7 +48,8 @@ if __name__ == "__main__":
     if det:
       dets += det
 
-  json.dump(dets, open('dummy.json', 'w'))
+  for det in dets:
+    print(det)
 
 
 
