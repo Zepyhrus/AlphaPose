@@ -170,8 +170,8 @@ if __name__ == "__main__":
     detbox_AP = 0.0
     gt_AP = 0.0
     with torch.no_grad():
-        detbox_AP = validate(m, heatmap_to_coord, opt, cfg)
-        # gt_AP = validate_gt(m, heatmap_to_coord, opt, cfg)
+        # detbox_AP = validate(m, heatmap_to_coord, opt, cfg)
+        gt_AP = validate_gt(m, heatmap_to_coord, opt, cfg)
         
 
     print('##### gt box: {} mAP | det box: {} mAP #####'.format(gt_AP, detbox_AP))

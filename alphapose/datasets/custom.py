@@ -92,7 +92,10 @@ class CustomDataset(data.Dataset):
     def __getitem__(self, idx):
         # get image id
         img_path = self._items[idx]
-        img_id = int(os.path.splitext(os.path.basename(img_path))[0])
+        try:
+            img_id = int(os.path.splitext(os.path.basename(img_path))[0]) # COCO format
+        except:
+            img_id = os.path.splitext(os.path.basename(img_path))[0]
 
         # load ground truth, including bbox, keypoints, image size
         label = copy.deepcopy(self._labels[idx])

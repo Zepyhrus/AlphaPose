@@ -55,7 +55,11 @@ class Mscoco(CustomDataset):
         # iterate through the annotations
         image_ids = sorted(_coco.getImgIds())
         for entry in _coco.loadImgs(image_ids):
-            dirname, filename = entry['coco_url'].split('/')[-2:]
+            # dirname, filename = entry['coco_url'].split('/')[-2:]
+            filename = entry['file_name']
+            dirname = self._cfg['IMG_PREFIX']
+
+
             abs_path = os.path.join(self._root, dirname, filename)
             if not os.path.exists(abs_path):
                 raise IOError('Image: {} not exists.'.format(abs_path))
@@ -72,7 +76,7 @@ class Mscoco(CustomDataset):
 
     def _check_load_keypoints(self, coco, entry):
         """Check and load ground-truth keypoints"""
-        ann_ids = coco.getAnnIds(imgIds=entry['id'], iscrowd=False)
+        ann_ids = coco.getAnnIds(imgIds=[entry['id']], iscrowd=False) # modified by sherk, to adapt to AiC format data
         objs = coco.loadAnns(ann_ids)
         # check valid bboxes
         valid_objs = []
