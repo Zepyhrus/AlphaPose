@@ -133,8 +133,8 @@ class SimpleTransform(object):
             mu_x = int(joints_3d[i, 0, 0] / self._feat_stride[0] + 0.5)
             mu_y = int(joints_3d[i, 1, 0] / self._feat_stride[1] + 0.5)
             # check if any part of the gaussian is in-bounds
-            ul = [int(mu_x - tmp_size), int(mu_y - tmp_size)]
-            br = [int(mu_x + tmp_size + 1), int(mu_y + tmp_size + 1)]
+            ul = [int(mu_x - tmp_size), int(mu_y - tmp_size)]           # upper left
+            br = [int(mu_x + tmp_size + 1), int(mu_y + tmp_size + 1)]   # bottom right
             if (ul[0] >= self._heatmap_size[1] or ul[1] >= self._heatmap_size[0] or br[0] < 0 or br[1] < 0):
                 # return image as is
                 target_weight[i] = 0
@@ -191,14 +191,14 @@ class SimpleTransform(object):
             if c_half_body is not None and s_half_body is not None:
                 center, scale = c_half_body, s_half_body
 
-        # rescale
+        # rescale only in training period
         if self._train:
             sf = self._scale_factor
             scale = scale * np.clip(np.random.randn() * sf + 1, 1 - sf, 1 + sf)
         else:
             scale = scale * 1.0
 
-        # rotation
+        # rotation only in training period
         if self._train:
             rf = self._rot
             r = np.clip(np.random.randn() * rf, -rf * 2, rf * 2) if random.random() <= 0.6 else 0

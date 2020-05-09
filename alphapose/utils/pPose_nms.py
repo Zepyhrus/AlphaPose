@@ -114,13 +114,16 @@ def pose_nms(bboxes, bbox_scores, bbox_ids, pose_preds, pose_scores, areaThres=0
 
         if (1.5 ** 2 * (xmax - xmin) * (ymax - ymin) < areaThres):
             continue
-
+        
+        # # old format
         final_result.append({
             'keypoints': merge_pose - 0.3,
             'kp_score': merge_score,
             'proposal_score': torch.mean(merge_score) + bbox_scores_pick[j] + 1.25 * max(merge_score),
             'idx' : ori_bbox_ids[merge_id].tolist()
         })
+
+        # # new format modified by sherk
 
     return final_result
 

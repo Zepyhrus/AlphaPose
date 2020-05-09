@@ -708,10 +708,11 @@ def get_affine_transform(center,
     src[2:, :] = get_3rd_point(src[0, :], src[1, :])
     dst[2:, :] = get_3rd_point(dst[0, :], dst[1, :])
 
+    # note that cv2.getAffineTransform will convert float32 to float64
     if inv:
-        trans = cv2.getAffineTransform(np.float32(dst), np.float32(src))
+        trans = cv2.getAffineTransform(dst, src).astype(np.float32)
     else:
-        trans = cv2.getAffineTransform(np.float32(src), np.float32(dst))
+        trans = cv2.getAffineTransform(src, dst).astype(np.float32)
 
     return trans
 
@@ -719,6 +720,7 @@ def get_affine_transform(center,
 def affine_transform(pt, t):
     new_pt = np.array([pt[0], pt[1], 1.]).T
     new_pt = np.dot(t, new_pt)
+
     return new_pt[:2]
 
 

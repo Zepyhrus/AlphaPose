@@ -92,17 +92,14 @@ class CustomDataset(data.Dataset):
     def __getitem__(self, idx):
         # get image id
         img_path = self._items[idx]
-        try:
-            img_id = int(os.path.splitext(os.path.basename(img_path))[0]) # COCO format
-        except:
-            img_id = os.path.splitext(os.path.basename(img_path))[0]
-
+        img_id = self._labels[idx]['image_id']
+        
         # load ground truth, including bbox, keypoints, image size
         label = copy.deepcopy(self._labels[idx])
         # img = scipy.misc.imread(img_path, mode='RGB')
         img = cv2.imread(img_path)
-        if self._train:
-            img = random_aug(img)   # added by sherk use noise augumentation, only in train phrase
+        # if self._train:               # NOTE: added by sherk use noise augumentation, only in train phrase
+        #     img = random_aug(img)     # if you want a better result on your validation dataset, do not use agumentation
         img = img[:, :, ::-1]   
         
 

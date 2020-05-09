@@ -55,6 +55,7 @@ class Mscoco(CustomDataset):
         # iterate through the annotations
         image_ids = sorted(_coco.getImgIds())
         for entry in _coco.loadImgs(image_ids):
+            # TODO: Modified by sherk to adapt to both AiC and COCO format 
             # dirname, filename = entry['coco_url'].split('/')[-2:]
             filename = entry['file_name']
             dirname = self._cfg['IMG_PREFIX']
@@ -103,7 +104,7 @@ class Mscoco(CustomDataset):
                 joints_3d[i, 0, 0] = obj['keypoints'][i * 3 + 0]
                 joints_3d[i, 1, 0] = obj['keypoints'][i * 3 + 1]
                 # joints_3d[i, 2, 0] = 0
-                visible = min(1, obj['keypoints'][i * 3 + 2])
+                visible = min(1, obj['keypoints'][i * 3 + 2]) # visibility is compressed to 0 or 1
                 joints_3d[i, :2, 1] = visible
                 # joints_3d[i, 2, 1] = 0
 
@@ -122,7 +123,8 @@ class Mscoco(CustomDataset):
                 'bbox': (xmin, ymin, xmax, ymax),
                 'width': width,
                 'height': height,
-                'joints_3d': joints_3d
+                'joints_3d': joints_3d,
+                'image_id': entry['id']
             })
 
         if not valid_objs:
