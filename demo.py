@@ -39,10 +39,10 @@ def get_args():
     parser.add_argument('--format', type=str)
     parser.add_argument('--min_box_area', type=int, default=0)
     parser.add_argument('--detbatch', type=int, default=1)
-    parser.add_argument('--posebatch', type=int, default=80)
+    parser.add_argument('--posebatch', type=int, default=64)
     parser.add_argument('--eval', dest='eval', default=False, action='store_true')
     parser.add_argument('--gpus', type=str, dest='gpus', default="0")
-    parser.add_argument('--qsize', type=int, dest='qsize', default=1024)
+    parser.add_argument('--qsize', type=int, dest='qsize', default=256)
     parser.add_argument('--flip', default=False, action='store_true')
     parser.add_argument('--debug', default=False, action='store_true')
     """----------------------------- Video options -----------------------------"""
@@ -55,8 +55,7 @@ def get_args():
     args = parser.parse_args([
     '--cfg', './configs/coco/resnet/res50-dcn_ft.yaml',
     '--checkpoint', './models/fast_dcn_res50_256x192.pth',
-    '--indir', './data/seedland/pose_seg_hard',
-    '--outdir', './data/output/'
+    '--video', './data/hie/16.mp4'
     ])
     cfg = update_config(args.cfg)
 
