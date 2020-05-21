@@ -377,7 +377,8 @@ class Darknet(nn.Module):
                 num_classes = int (modules[i]["classes"])
                 
                 #Output the result
-                x = x.data.to(args.device)
+                # x = x.data.to(args.device)
+                x = x.data.to('cuda')   # modified by sherk
                 x = predict_transform(x, inp_dim, anchors, num_classes, args)
                 
                 if type(x) == int:
