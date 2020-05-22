@@ -15,8 +15,6 @@ import torch.utils.data as data
 from pycocotools.coco import COCO
 
 from alphapose.utils.presets import SimpleTransform
-from alphapose.utils.noise import random_aug
-
 
 class CustomDataset(data.Dataset):
     """Custom dataset.
@@ -98,8 +96,7 @@ class CustomDataset(data.Dataset):
         label = copy.deepcopy(self._labels[idx])
         # img = scipy.misc.imread(img_path, mode='RGB')
         img = cv2.imread(img_path)
-        # if self._train:               # NOTE: added by sherk use noise augumentation, only in train phrase
-        #     img = random_aug(img)     # if you want a better result on your validation dataset, do not use agumentation
+
         img = img[:, :, ::-1]   
         
 

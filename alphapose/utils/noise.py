@@ -26,13 +26,13 @@ def random_noise(img):
 
 
 def random_blur(img):
-    modes = [
-        'gaussian',
-        'median',
-        None
-    ]
+    """
+    Random blur image
+    """
+    modes = ['gaussian', 'median', None ]
     mode = modes[np.random.randint(len(modes))]
-    ksize = 2 * np.random.randint(4) + 1    # random kernel size
+    factor = img.shape[0] // 32
+    ksize = 2 * np.random.randint(factor) + 1    # random kernel size
 
     if mode is None:
         return img
@@ -44,5 +44,16 @@ def random_blur(img):
         raise 'wrong blur mode!'
 
 
-def random_aug(img):    
-    return random_noise(random_blur(img))
+
+def random_brightness(img):
+    """
+    Random adjust image brightness and contrast
+    """
+    gf = 0.3
+    gamma = np.clip(np.random.randn() * gf + 1, 1/(1+gf*3), 1+gf*3)
+
+    table = np.array([((i / 255.0) ** gamma) * 255 for i in np.arange(256)]).astype(np.uint8)
+
+    return cv2.LUT(img, table)
+
+
