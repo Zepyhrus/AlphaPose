@@ -583,6 +583,7 @@ def flip_joints_3d(joints_3d, width, joint_pairs):
     return joints
 
 
+
 def heatmap_to_coord_simple(hms, bbox):
     """
     sherk:
