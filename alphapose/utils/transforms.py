@@ -58,10 +58,16 @@ def addDPG(bbox, imgwidth, imght):
         xmax = xmin + patchWidth + 1
         ymax = ymin + patchHt + 1
     else:
-        xmin = max(1, min(bbox[0] + np.random.normal(-0.0142, 0.1158) * width, imgwidth - 3))
-        ymin = max(1, min(bbox[1] + np.random.normal(0.0043, 0.068) * ht, imght - 3))
-        xmax = min(max(xmin + 2, bbox[2] + np.random.normal(0.0154, 0.1337) * width), imgwidth - 3)
-        ymax = min(max(ymin + 2, bbox[3] + np.random.normal(-0.0013, 0.0711) * ht), imght - 3)
+        # # remove the image boundary limitation
+        # xmin = max(1, min(bbox[0] + np.random.normal(-0.0142, 0.1158) * width, imgwidth - 3))
+        # ymin = max(1, min(bbox[1] + np.random.normal(0.0043, 0.068) * ht, imght - 3))
+        # xmax = min(max(xmin + 2, bbox[2] + np.random.normal(0.0154, 0.1337) * width), imgwidth - 3)
+        # ymax = min(max(ymin + 2, bbox[3] + np.random.normal(-0.0013, 0.0711) * ht), imght - 3)
+
+        xmin = bbox[0] + np.random.normal(-0.0142, 0.1158) * width
+        ymin = bbox[1] + np.random.normal(0.0043, 0.068) * ht
+        xmax = max(xmin+12, bbox[2] + np.random.normal(0.0154, 0.1337) * width)
+        ymax = max(ymin+12, bbox[3] + np.random.normal(-0.0013, 0.0711) * ht)
 
     bbox[0] = xmin
     bbox[1] = ymin

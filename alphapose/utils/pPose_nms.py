@@ -29,7 +29,7 @@ def pose_nms(bboxes, bbox_scores, bbox_ids, pose_preds, pose_scores, areaThres=0
     pose_preds:     pose locations list (n, kp_num, 2)
     pose_scores:    pose scores list    (n, kp_num, 1)
     '''
-    #global ori_pose_preds, ori_pose_scores, ref_dists
+    # global ori_pose_preds, ori_pose_scores, ref_dists
 
     pose_scores[pose_scores == 0] = 1e-5
     kp_nums = pose_preds.size()[1]
